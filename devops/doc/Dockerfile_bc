@@ -1,0 +1,22 @@
+# base go
+# 这种方法没行通，本地编译的东西在docker中没跑起来
+
+# 使用docker scratch 构建 golang 之坑
+# https://www.cnblogs.com/feiquan/p/13413008.html
+
+# 生产阶段， scratch是一个最小镜像,可以理解为null， 用来构建原生二进制执行的最小镜像包， 但不支持cgo
+# alpine优缺点对比 有/bin/sh 但没有/bin/bash. 目前了解到相比scratch多包含了busybox
+#
+#FROM scratch AS prod
+FROM alpine AS prod
+#FROM centos AS prod
+RUN mkdir -p /go/src
+WORKDIR /go/src
+
+# 从buil阶段拷贝二进制文件
+COPY "./release" "/go/src"
+# 环境变量
+# ENV
+
+EXPOSE 8000
+CMD ["/start_up_unix"]

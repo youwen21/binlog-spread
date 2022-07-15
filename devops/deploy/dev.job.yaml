@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: project-data-model-dev
+spec:
+  template:
+    metadata:
+      name: project-data-model-dev
+    spec:
+      containers:
+        - name: pi
+          image: youwen21/project-data-model
+          imagePullPolicy: IfNotPresent
+          command: ["/go/src/start_up",  "dev"]
+      restartPolicy: Never

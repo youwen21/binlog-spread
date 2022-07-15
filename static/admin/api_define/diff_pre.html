@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>API-数据模型对比</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/AdminLTE-3.0.5/plugins/fontawesome-free/css/all.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/AdminLTE-3.0.5/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="/dist/admin/css/optimization.css">
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <!-- Left navbar links -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="#" class="nav-link">Home</a>
+            </li>
+        </ul>
+
+        <!-- SEARCH FORM -->
+        <!-- <form class="form-inline ml-3">
+          <div class="input-group input-group-sm">
+            <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+            <div class="input-group-append">
+              <button class="btn btn-navbar" type="submit">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </form> -->
+
+        <!-- Right navbar links -->
+        <ul class="navbar-nav ml-auto">
+            <!-- Messages Dropdown Menu -->
+
+            <!-- Notifications Dropdown Menu -->
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    <i class="far fa-bell"></i>
+                    <span class="badge badge-warning navbar-badge">个人操作</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <span class="dropdown-item dropdown-header">操作面板</span>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-envelope mr-2"></i> 个人资料
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-file mr-2"></i> 3 new reports
+                        <span class="float-right text-muted text-sm">2 days</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="/admin-api/v1/token?_ajax_method=DELETE" class="dropdown-item dropdown-footer"
+                       onclick="logout(this);"
+                       data-rest-type="DELETE">退出登录</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <!-- Brand Logo -->
+        <a href="#" class="brand-link">
+            <img src="/AdminLTE-3.0.5/dist/img/AdminLTELogo.png"
+                 alt="AdminLTE Logo"
+                 class="brand-image img-circle elevation-3"
+                 style="opacity: .8">
+            <span class="brand-text font-weight-light">数据模型管理系统</span>
+        </a>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Sidebar user (optional) -->
+
+            <!-- Sidebar Menu -->
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                    data-accordion="false">
+                    <!-- Add icons to the links using the .nav-icon class
+                         with font-awesome or any other icon font library -->
+
+                    <li class="nav-header" id="sidebar-menu"></li>
+
+                </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+        </div>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>API-数据模型对比</h1>
+                    </div>
+
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <section class="content">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="bg-green h5">已选择对比元素</span>
+                        </div>
+                        <div class="card-body">
+                            <div id="selected-api" style="display: none">
+                                <label>已选择的API-B</label>
+                                <input type="text" readonly="readonly" name="api_b" id="api_b">
+                            </div>
+                            <div id="selected-binlog-ids" style="display: none">
+                                <label>已选择的binlog ids</label>
+                                <input type="text" readonly="readonly" name="binlog_ids" id="binlog_ids">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <input type="hidden" name="compare-event-id" id="compare-event-id" value=""/>
+                            <h3 class="card-title bg-info">选择对比事件</h3>
+                            <!--<a class="btn btn-sm btn-primary" href="add.html">添加</a>-->
+                            <div class="card-tools">
+                                <div class="input-group input-group-sm" style="width: 150px;">
+                                    <input type="text" name="table_search" class="form-control float-right search-text"
+                                           placeholder="Search">
+
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-default"><i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-head-fixed text-nowrap">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>事件名称</th>
+                                    <th>事件包含的数据流</th>
+                                    <th>事件版本</th>
+                                    <th>创建时间</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody id="table-body">
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- /.card-body -->
+                        <div class="card-footer clearfix" id="pagination">
+
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="/AdminLTE-3.0.5/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/AdminLTE-3.0.5/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/AdminLTE-3.0.5/dist/js/adminlte.min.js"></script>
+
+<script src="/plugins/jquery-tmpl/jquery.tmpl.js"></script>
+<link rel="stylesheet" href="/plugins/pagination/dist/pagination.css">
+<script src="/plugins/pagination/dist/pagination.js"></script>
+
+<script id="sidebar-level-1" type="text/x-jquery-tmpl">
+  {{if $data._child}}
+  <li class="nav-item has-treeview">
+    <a href="${pathname}" class="nav-link">
+      <i class="nav-icon fas fa-tree"></i>
+      <p>
+        ${title}
+        <i class="right fas fa-angle-left"></i>
+      </p>
+    </a>
+    <ul class="nav nav-treeview">
+      {{tmpl($data._child) '#sidebar-level-1'}}
+    </ul>
+  </li>
+  {{else}}
+  <li class="nav-item">
+    <a href="${pathname}" class="nav-link">
+      <i class="nav-icon far fa-circle"></i>
+      <p>
+        ${title}
+      </p>
+    </a>
+  </li>
+  {{/if}}
+
+
+
+
+
+
+</script>
+<script id="event-list" type="text/x-jquery-tmpl">
+<tr>
+    <td>${api_define_id}</td>
+    <td>${api_name}</td>
+    <td>${stream_ids}</td>
+    <td>${api_version}</td>
+    <td>${created_at}</td>
+    <td>{{html operation}}</td>
+</tr>
+
+
+
+</script>
+<link rel="stylesheet" href="/plugins/jquery-toast-plugin-1.3.2/dist/jquery.toast.min.css">
+<script src="/plugins/jquery-toast-plugin-1.3.2/dist/jquery.toast.min.js"></script>
+<script src="/dist/js/admin.common.js"></script>
+
+<script>
+    $(function () {
+        let searchParams = new URLSearchParams(window.location.search);
+        let binlog_ids = searchParams.get("binlog_ids");
+        let api_b = searchParams.get("api_b");
+
+        if (binlog_ids != null) {
+            $("#binlog_ids").val(binlog_ids)
+            $("#selected-binlog-ids").show()
+        }
+        if (api_b != null) {
+            $("#api_b").val(api_b)
+            $("#selected-api").show()
+        }
+    })
+
+    function loadContent(data) {
+        let sourceUrl = window.location.origin + "/admin-api/v1/api_define";
+        $('#pagination').pagination({
+            dataSource: window.location.origin + "/admin-api/v1/api_define",
+            // totalNumber: total,
+            // alias: {
+            //     pageNumber: 'page',
+            //     pageSize: 'per_page'
+            // },
+            pageSize: 10,
+            totalNumberLocator: function (response) {
+                if (response.data == null) {
+                    return 0;
+                }
+                if (response.data.total) {
+                    return response.data.count
+                }
+                return 0;
+                // return Math.floor(Math.random() * (1000 - 100)) + 100;
+            },
+            locator: 'data.list',
+            coping: true,
+            homePage: '首页',
+            endPage: '末页',
+            prevContent: '上页',
+            nextContent: '下页',
+            ajax: {
+                beforeSend: function (xhr) {
+                    $("#table-body").html('');
+                    let token = window.localStorage.site_admin_token;
+                    xhr.setRequestHeader("Accept", "application/json");
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+                },
+                data: data,
+                dataFilter: function (data, type) {
+                    let obj = JSON.parse(data);
+
+                    if (obj.code === 600) {
+                        showToast(obj.msg, "/admin/entrance/login.html");
+                        return false;
+                    }
+
+                    return data;
+                }
+            },
+            callback: function (data, pagination) {
+                for (let i = 0; i < data.length; i++) {
+                    let buttons = '';
+                    // buttons += genButtonView(window.location.origin + '/admin/menu/view.html');
+                    buttons += ' ' + '<a class="btn btn-sm btn-warning" onclick="compare(' + data[i].api_define_id + ')">选择对比</a>';
+                    data[i].operation = buttons;
+                }
+
+                $('#event-list').tmpl(data).appendTo('#table-body');
+            }
+        });
+    }
+
+    loadContent();
+
+    $(".fa-search").bind('click', function (e) {
+        loadContent({"search": $(".search-text").val()})
+    })
+
+    function compare(apiId) {
+        let searchParams = new URLSearchParams(window.location.search);
+        searchParams.append("api_a", apiId)
+        window.location.href = "/admin/api_define/diff.html" + "?" + searchParams
+    }
+</script>
+
+</body>
+</html>

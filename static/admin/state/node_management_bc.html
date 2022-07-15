@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>AdminLTE 3 | Simple Tables</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/AdminLTE-3.0.5/plugins/fontawesome-free/css/all.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/AdminLTE-3.0.5/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="/dist/admin/css/optimization.css">
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <!-- Left navbar links -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="#" class="nav-link">Home</a>
+            </li>
+        </ul>
+
+        <!-- SEARCH FORM -->
+        <!-- <form class="form-inline ml-3">
+          <div class="input-group input-group-sm">
+            <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+            <div class="input-group-append">
+              <button class="btn btn-navbar" type="submit">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </form> -->
+
+        <!-- Right navbar links -->
+        <ul class="navbar-nav ml-auto">
+            <!-- Messages Dropdown Menu -->
+
+            <!-- Notifications Dropdown Menu -->
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    <i class="far fa-bell"></i>
+                    <span class="badge badge-warning navbar-badge">个人操作</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <span class="dropdown-item dropdown-header">操作面板</span>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-envelope mr-2"></i> 个人资料
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-file mr-2"></i> 3 new reports
+                        <span class="float-right text-muted text-sm">2 days</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="/admin-api/v1/token?_ajax_method=DELETE" class="dropdown-item dropdown-footer"
+                       onclick="logout(this);"
+                       data-rest-type="DELETE">退出登录</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <!-- Brand Logo -->
+        <a href="#" class="brand-link">
+            <img src="/AdminLTE-3.0.5/dist/img/AdminLTELogo.png"
+                 alt="AdminLTE Logo"
+                 class="brand-image img-circle elevation-3"
+                 style="opacity: .8">
+            <span class="brand-text font-weight-light">数据模型管理系统</span>
+        </a>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Sidebar user (optional) -->
+
+            <!-- Sidebar Menu -->
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                    data-accordion="false">
+                    <!-- Add icons to the links using the .nav-icon class
+                         with font-awesome or any other icon font library -->
+
+                    <li class="nav-header" id="sidebar-menu"></li>
+
+                </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+        </div>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>业务状态管理 - 节点管理</h1>
+                    </div>
+
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <a class="btn btn-sm btn-primary" id="btn-add_node" href="add_node.html">添加节点</a>
+                            <div class="card-tools">
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-head-fixed text-nowrap">
+                                <thead>
+                                <tr>
+                                    <th>主键ID</th>
+                                    <th>库名</th>
+                                    <th>表名</th>
+                                    <th>字段名</th>
+                                    <th>状态名</th>
+                                    <th>状态节点名称</th>
+                                    <th>状态节点值</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody id="table-body">
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- /.card-body -->
+                        <div class="card-footer clearfix" id="pagination" style="display: none">
+
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>状态流转</h1>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <a class="btn btn-sm btn-primary" id="btn-add_direction" href="add_direction.html">添加流转</a>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-head-fixed text-nowrap">
+                                <thead>
+                                <tr>
+                                    <th>主键ID</th>
+                                    <th>源状态ID</th>
+                                    <th>源状态名称</th>
+                                    <th>目标状态ID</th>
+                                    <th>目标状态名称</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody id="list-direction">
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- /.card-body -->
+                        <div class="card-footer clearfix" id="pagination-direction" style="display: none">
+
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+        </section>
+
+        <section class="content">
+            <div class="row">
+                <div class="col-12" id="graph-image">
+
+                    <!-- /.card -->
+                </div>
+                <div class="col-12" id="d3-graph-image">
+
+                    <!-- /.card -->
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="/AdminLTE-3.0.5/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/AdminLTE-3.0.5/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/AdminLTE-3.0.5/dist/js/adminlte.min.js"></script>
+
+<script src="/plugins/jquery-tmpl/jquery.tmpl.js"></script>
+<link rel="stylesheet" href="/plugins/pagination/dist/pagination.css">
+<script src="/plugins/pagination/dist/pagination.js"></script>
+
+<script id="sidebar-level-1" type="text/x-jquery-tmpl">
+  {{if $data._child}}
+  <li class="nav-item has-treeview">
+    <a href="${pathname}" class="nav-link">
+      <i class="nav-icon fas fa-tree"></i>
+      <p>
+        ${title}
+        <i class="right fas fa-angle-left"></i>
+      </p>
+    </a>
+    <ul class="nav nav-treeview">
+      {{tmpl($data._child) '#sidebar-level-1'}}
+    </ul>
+  </li>
+  {{else}}
+  <li class="nav-item">
+    <a href="${pathname}" class="nav-link">
+      <i class="nav-icon far fa-circle"></i>
+      <p>
+        ${title}
+      </p>
+    </a>
+  </li>
+  {{/if}}
+
+
+
+</script>
+<script id="table-list" type="text/x-jquery-tmpl">
+<tr>
+    <td>${state_id}</td>
+    <td>${db_name}</td>
+    <td>${table_name}</td>
+    <td>${field_name}</td>
+    <td>(${state_class_id})${state_class_name}</td>
+    <td>${state_value_desc}</td>
+    <td>${state_value}</td>
+    <td>{{html operation}}</td>
+</tr>
+
+
+</script>
+
+<script id="state-direction-row" type="text/x-jquery-tmpl">
+<tr>
+    <td>${state_direction_id}</td>
+    <td>${state_from}</td>
+    <td>${state_from_desc}</td>
+    <td>${state_to}</td>
+    <td>${state_to_desc}</td>
+    <td>{{html operation}}</td>
+</tr>
+
+
+</script>
+<script>
+    window.sideBarPath = "/admin/state/list.html"
+</script>
+
+<link rel="stylesheet" href="/plugins/jquery-toast-plugin-1.3.2/dist/jquery.toast.min.css">
+<script src="/plugins/jquery-toast-plugin-1.3.2/dist/jquery.toast.min.js"></script>
+<script src="/dist/js/admin.common.js"></script>
+
+<script src="//d3js.org/d3.v5.min.js"></script>
+<script src="https://unpkg.com/@hpcc-js/wasm@0.3.11/dist/index.min.js"></script>
+<script src="https://unpkg.com/d3-graphviz@3.0.5/build/d3-graphviz.js"></script>
+
+
+<script>
+    function loadContent() {
+        let sourceUrl = window.location.origin + "/admin-api/v1/state";
+        $('#pagination').pagination({
+            dataSource: window.location.origin + "/admin-api/v1/state?state_class_id=" + getId(),
+            // totalNumber: total,
+            // alias: {
+            //     pageNumber: 'page',
+            //     pageSize: 'per_page'
+            // },
+            pageSize: 500,
+            totalNumberLocator: function (response) {
+                return response.data.count;
+                // return Math.floor(Math.random() * (1000 - 100)) + 100;
+            },
+            locator: 'data.list',
+            coping: true,
+            homePage: '首页',
+            endPage: '末页',
+            prevContent: '上页',
+            nextContent: '下页',
+            ajax: {
+                beforeSend: function (xhr) {
+                    $("#table-body").html('');
+                    let token = window.localStorage.site_admin_token;
+                    xhr.setRequestHeader("Accept", "application/json");
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+                }
+            },
+            callback: function (data, pagination) {
+                for (let i = 0; i < data.length; i++) {
+                    let buttons = '';
+                    // buttons += genButtonView(window.location.origin + '/admin/menu/view.html');
+                    buttons += genButtonEdit(window.location.origin + '/admin/state/edit_node.html#' + data[i].state_id);
+                    buttons += ' ' + genButtonDel(sourceUrl + '/' + data[i].state_id, 'DELETE');
+                    data[i].operation = buttons;
+                }
+
+                $('#table-list').tmpl(data).appendTo('#table-body');
+            }
+        });
+
+
+        $('#pagination-direction').pagination({
+            dataSource: window.location.origin + "/admin-api/v1/state_direction?state_class_id=" + getId(),
+            pageSize: 200,
+            totalNumberLocator: function (response) {
+                return response.data.count;
+                // return Math.floor(Math.random() * (1000 - 100)) + 100;
+            },
+            locator: 'data.list',
+            coping: true,
+            homePage: '首页',
+            endPage: '末页',
+            prevContent: '上页',
+            nextContent: '下页',
+            ajax: {
+                beforeSend: function (xhr) {
+                    $("#table-body").html('');
+                    let token = window.localStorage.site_admin_token;
+                    xhr.setRequestHeader("Accept", "application/json");
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+                }
+            },
+            callback: function (data, pagination) {
+                for (let i = 0; i < data.length; i++) {
+                    let buttons = '';
+                    buttons += ' ' + genButtonDel(window.location.origin + "/admin-api/v1/state_direction/" + data[i].state_direction_id, 'DELETE');
+                    data[i].operation = buttons;
+                }
+
+                $('#state-direction-row').tmpl(data).appendTo('#list-direction');
+            }
+        });
+    }
+
+    loadContent();
+
+    $(function () {
+        $("#btn-add_node").attr("href", "add_node.html?stat_class_id=" + getId())
+        $("#btn-add_direction").attr("href", "add_direction.html?stat_class_id=" + getId())
+    })
+
+    function stateGraph() {
+        let stateClassId = getId()
+        $.ajax({
+            url: window.location.origin + "/admin-api/v1/state_graph/" + stateClassId,
+            method: 'GET',
+            async: true,
+            success: function (res) {
+                // $("#graph-image").append(res);
+                // 使用包: https://github.com/magjac/d3-graphviz
+                // demo:https://bl.ocks.org/magjac/a23d1f1405c2334f288a9cca4c0ef05b
+                d3.select("#d3-graph-image").graphviz().renderDot(res);
+
+                // 优化文案：Reading DOT files in javascript/d3
+                // https://stackoverflow.com/questions/22595493/reading-dot-files-in-javascript-d3
+            }
+        })
+    }
+
+    stateGraph();
+
+</script>
+
+</body>
+</html>

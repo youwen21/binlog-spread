@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-model-web-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ata-model-web
+  template:
+    metadata:
+      labels:
+        app: data-model
+    spec:
+      containers:
+        - name: nginx
+          image: youwen21/project-data-model
+          imagePullPolicy: IfNotPresent
+          command: [ "/go/src/start_up", "web-start" ]
+          args: [
+              "",
+          ]
+          env:
+            - name: DB_EVENT_PORT
+              value: "3306"
+            - name: DB_EVENT_HOST
+              value: ""
+            - name: DB_EVENT_USERNAME
+              value: ""
+            - name: DB_EVENT_PASSWORD
+              value: ""
+            - name:DB_EVENT_DATABASE
+              value: ""
+            - name: DB_EVENT_CHARSET
+              value: ""
+            - name: DB_EVENT_FILTER
+              value: ""
+          ports:
+            - containerPort: 8000

@@ -1,0 +1,78 @@
+# 不能有数字，3306要用“”包起来
+# https://blog.csdn.net/baobaoxiannv/article/details/104632769/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-model-web-deployment
+  labels:
+    app: data-model-web
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: data-model-web
+  template:
+    metadata:
+      labels:
+        app: data-model-web
+    spec:
+      containers:
+        - name: data-model-web
+          image: youwen21/project-data-model
+          #imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
+          command: [ "/go/src/start_up" ]
+          args: [
+              "web-start",
+          ]
+          envFrom:
+            - configMapRef:
+                name: data-model-configmap
+#          env:
+#            - name: DB_EVENT_PORT
+#              value: "3306"
+#            - name: DB_EVENT_HOST
+#              valueFrom:
+#                configMapKeyRef:
+#                  name: data-model-configmap
+#                  key: DB_EVENT_HOST
+#            - name: DB_EVENT_USERNAME
+#              valueFrom:
+#                configMapKeyRef:
+#                  name: data-model-configmap
+#                  key: DB_EVENT_USERNAME
+#            - name: DB_EVENT_PASSWORD
+#              valueFrom:
+#                configMapKeyRef:
+#                  name: data-model-configmap
+#                  key: DB_EVENT_PASSWORD
+#            - name: DB_EVENT_DATABASE
+#              valueFrom:
+#                configMapKeyRef:
+#                  name: data-model-configmap
+#                  key: DB_EVENT_DATABASE
+#            - name: DB_EVENT_CHARSET
+#              valueFrom:
+#                configMapKeyRef:
+#                  name: data-model-configmap
+#                  key: DB_EVENT_CHARSET
+#            - name: DB_EVENT_FILTER
+#              valueFrom:
+#                configMapKeyRef:
+#                  name: data-model-configmap
+#                  key: DB_EVENT_FILTER
+          ports:
+            - containerPort: 8000
+---
+apiVersion: v1 # v1是service的apiversion
+kind: Service # 资源类型为 Service。
+metadata:
+  name: pdm-http-svc # Service 的名字
+spec:
+  selector: # elector 指明挑选那些 label 为 run: httpd 的 Pod 作为 Service 的后端。
+    app: data-model-web
+  type: NodePort # ClusterIP, NodePort, LoadBalancer
+  ports: # 将 Service 的 8080 端口映射到 Pod 的 8000 端口，使用 TCP 协议。
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000

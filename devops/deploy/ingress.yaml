@@ -1,0 +1,28 @@
+# 本项目是用不到Ingress的， 只是为学习创建此文件
+# 首学习一下 Ingress 和 Istio 的对比
+# https://blog.csdn.net/weixin_34291004/article/details/89661988
+
+## networking.k8s.io/v1 与 extensions/v1beta1 的区别
+# https://stackoverflow.com/questions/63773116/how-to-convert-all-kubernetes-ingress-yamls-to-use-api-version-networking-k8s-io
+
+#  networking.k8s.io/v1 配置demo 这个网站挺好
+# https://www.bookstack.cn/read/feiskyer-kubernetes-handbook-202005/practice-minikube-ingress.md
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: project-data-model
+  annotations:
+    kubernetes.io/ingress.class: "ing-class1"
+spec:
+  rules:
+    - host: project-data-model.com
+      http:
+        paths:
+          - backend:
+              service:
+                name: pdm-http-svc
+                port:
+                  number: 8000
+            path: /web-frontend/frontend.php
+            pathType: Exact

@@ -1,0 +1,24 @@
+# service 创建教程
+# 创建完service是k8s内服务访问服务用的。  这时候用户还不能访问到k8s内service服务
+
+# 特殊情况一 没有选择器的服务。 如服务不在k8s管理中。
+# 特殊情况一 指定IP
+# https://www.kubernetes.org.cn/kubernetes-services
+
+# Mac上NodePort也是不能直接访问的！！！
+# 因为minikube运行在 虚拟机linux上。 docker也是跑在虚拟机里的！！
+# 要minikube service xxx ，会自动打开浏览器
+
+# https://zhuanlan.zhihu.com/p/157565821
+apiVersion: v1 # v1是service的apiversion
+kind: Service # 资源类型为 Service。
+metadata:
+  name: pdm-http-svc # Service 的名字
+spec:
+  selector: # elector 指明挑选那些 label 为 run: httpd 的 Pod 作为 Service 的后端。
+    app: data-model-web
+  type: NodePort # ClusterIP, NodePort, LoadBalancer
+  ports: # 将 Service 的 8080 端口映射到 Pod 的 8000 端口，使用 TCP 协议。
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
