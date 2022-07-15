@@ -1,0 +1,45 @@
+APP: "binlog-spread"
+
+APP_ENV: localhost
+WEB_LISTEN: :8100
+
+DB_TYPE: "sqlite"
+# sqlite
+SQLITE_FILE: "/Users/owen/go/src/binlog-spread/db/binlog_spread.db"
+# mysql
+DB_HOST: 127.0.0.1
+DB_PORT: 3306
+DB_USERNAME: root
+DB_PASSWORD: root
+DB_DATABASE: binlog_spread
+DB_CHARSET: utf8
+
+
+# 提供 binlog 的mysql 配置
+
+# binlog mysql 配置
+BINLOG_SERVER_ID: 100
+
+BINLOG_DB_HOST: 127.0.0.1
+BINLOG_DB_PORT: 3306
+BINLOG_DB_USERNAME: root
+BINLOG_DB_PASSWORD: mysql123
+BINLOG_DB_DATABASE: mysql
+BINLOG_DB_CHARSET: utf8
+
+BINLOG_FILTER: ".*\\..*"
+BINLOG_SKIP: "mysql\\..*,codeper\\..*"
+
+
+
+# 状态管理
+## 状态流程检查是否开启
+ENABLE_CHECK_STATE: yes
+
+# 数据模型
+## 启动mysql-binlog 数据流收集
+ENABLE_MODEL_STREAM: yes
+## 累计满多少行数据写一次库, 满足立即写入到表ddd_event_stream
+MODEL_STREAM_FLUSH_ROWS: 1
+##  数据刷新频率设置 单位秒, 满足立即写入到表ddd_event_stream
+MODEL_STREAM_FLUSH_DURATION: 5
