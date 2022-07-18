@@ -11,10 +11,8 @@ import (
 	"github.com/go-mysql-org/go-mysql/mysql"
 	"github.com/go-mysql-org/go-mysql/replication"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/urfave/cli/v2"
 	"log"
-	"net/http"
 )
 
 type binlogClient struct{}
@@ -43,13 +41,6 @@ var (
 
 //StartBinlogClient 消费mysql binlog
 func (bc *binlogClient) StartBinlogClient(c *cli.Context) error {
-	go func() {
-		http.Handle("/metrics", promhttp.Handler())
-		err := http.ListenAndServe(":2112", nil)
-		if err != nil {
-			panic(err)
-		}
-	}()
 
 	// prepare
 	api_binlog.Filter = conf.Config.BinlogMysql.Filter
